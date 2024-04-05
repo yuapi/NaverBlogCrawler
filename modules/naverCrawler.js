@@ -34,7 +34,7 @@ async function crawlBlog(d) {
 			content: parseRes.content,
 			postdate: e.postdate,
 			blogId: e.bloggerlink.split('/').pop(),
-			blogName: e.bloggername
+			blogName: e.bloggername.replace(/\"/g, '')
 		});
 	}
 	createCSV(crawlRes, `${d.keyword}.csv`);
@@ -51,8 +51,8 @@ async function parseBlog(url) {
 	if (error) return log(error);
 
 	const $ = cheerio.load(data);
-	const title = $(`div.se-documentTitle > div > div > div.pcol1`).text().replace(/\n/g, '').replace(/\s\s+/g, '').trim();
-	const content = $(`div.se-main-container`).text().replace(/\n/g, ' ').replace(/\s+/g, ' ').replace(/​*/g, '').trim();
+	const title = $(`div.se-documentTitle > div > div > div.pcol1`).text().replace(/\n/g, ' ').replace(/\s+/g, ' ').replace(/\"/g, '').trim();
+	const content = $(`div.se-main-container`).text().replace(/\n/g, ' ').replace(/\s+/g, ' ').replace(/​*/g, '').replace(/\"/g, '').trim();
 
 	return { title: title, content: content };
 }
