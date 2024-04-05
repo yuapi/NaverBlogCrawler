@@ -131,6 +131,3 @@ dist
 
 # Configuration file
 config.json
-
-# Export data
-export/*

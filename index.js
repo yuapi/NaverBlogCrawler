@@ -1,7 +1,7 @@
 const fs = require('fs');
-const { logger, log } = require("./logger.js");
-const { searchBlog } = require("./naverAPI.js");
-const { crawlBlog } = require('./naverCrawler.js');
+const { logger, log } = require("./modules/logger.js");
+const { searchBlog } = require("./modules/naverAPI.js");
+const { crawlBlog } = require('./modules/naverCrawler.js');
 
 logger('NaverBlog-Crawler');
 
@@ -58,8 +58,8 @@ async function loadJSON(filename) {
 async function run(query) {
 	if (!query) return log("index.js:run() argument is undefined.");
 
-	//const searchRes = await blogSearch(query, 10, 1);
-	const searchRes = await loadJSON(`${query}.json`);
+	const searchRes = await blogSearch(query, 100, 10);
+	//const searchRes = await loadJSON(`${query}.json`);
 	await crawlBlog(searchRes);
 	log('Completed!');
 }
